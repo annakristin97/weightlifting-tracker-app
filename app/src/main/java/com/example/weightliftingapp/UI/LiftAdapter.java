@@ -48,6 +48,9 @@ public class LiftAdapter extends ArrayAdapter<Lift> {
         TextView weight = (TextView) listItem.findViewById(R.id.textView_weight);
         weight.setText(currentLift.getWeight() + "kg");
 
+        TextView set = (TextView) listItem.findViewById(R.id.textView_set);
+        set.setText(currentLift.getSets() + " x " + currentLift.getReps() + " reps");
+
 
         return listItem;
     }

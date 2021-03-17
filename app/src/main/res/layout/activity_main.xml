@@ -36,12 +36,12 @@
                     android:layout_marginTop="10dp"
                     android:text="Time Interval"
                     android:textColor="@color/colorAccent"
-                    android:textSize="20sp" />
+                    android:textSize="10sp" />
 
                 <Spinner
                     android:id="@+id/timeIntervalFilter"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="20dp"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
                     android:layout_marginBottom="10dp"
@@ -59,12 +59,12 @@
                     android:layout_marginLeft="15dp"
                     android:text="Lift Type"
                     android:textColor="@color/colorAccent"
-                    android:textSize="20sp" />
+                    android:textSize="10sp" />
 
                 <Spinner
                     android:id="@+id/typeFilter"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="20dp"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
                     android:layout_marginBottom="10dp"
@@ -82,12 +82,12 @@
                     android:layout_marginLeft="15dp"
                     android:text="No. Reps"
                     android:textColor="@color/colorAccent"
-                    android:textSize="20sp" />
+                    android:textSize="10sp" />
 
                 <Spinner
                     android:id="@+id/repsFilter"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="20dp"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
                     android:layout_marginBottom="10dp"
@@ -101,7 +101,7 @@
                 <ListView
                     android:id="@+id/liftList"
                     android:layout_width="match_parent"
-                    android:layout_height="373dp"
+                    android:layout_height="330dp"
                     android:layout_weight="1" />
 
                 <Space
@@ -119,6 +119,11 @@
                     android:background="@drawable/mybutton"
                     android:text="@android:string/search_go"
                     android:textColor="@color/colorAccentWhite" />
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5" />
 
             </LinearLayout>
 
