@@ -20,6 +20,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".UI.BarChartActivity"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".UI.PieChartActivity"
+            android:windowSoftInputMode="adjustResize" />
     </application>
 
 </manifest>

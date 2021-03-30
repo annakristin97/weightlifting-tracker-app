@@ -1,9 +1,8 @@
 package com.example.weightliftingapp.UI;
 
 import android.os.Bundle;
-import android.view.Window;
 
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.weightliftingapp.Entities.FilteredLifts;
 import com.example.weightliftingapp.Entities.Lift;
@@ -11,15 +10,11 @@ import com.example.weightliftingapp.R;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -30,8 +25,8 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+
+import com.github.mikephil.charting.charts.BarChart;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,11 +39,9 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
+    ListView liftList;
 
-    @BindView(R.id.searchButton)
-    Button mSearchButton;
-    @BindView(R.id.liftList)
-    ListView mLiftList;
+    Button btnBarChart, btnPieChart, searchButton;
 
     public static final String TAG = MainActivity.class.getSimpleName();
 
@@ -61,11 +54,35 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        mSearchButton.setOnClickListener(new View.OnClickListener() {
+        liftList = findViewById(R.id.liftList);
+
+        searchButton = findViewById(R.id.searchButton);
+
+        searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 System.out.println("Leita");
                 getLifts();
+            }
+        });
+
+        BarChart barChart = (BarChart) findViewById(R.id.barchart);
+
+        btnBarChart = findViewById(R.id.btnBarChart);
+        btnPieChart = findViewById(R.id.btnPieChart);
+
+        btnBarChart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent I = new Intent(MainActivity.this, BarChartActivity.class);
+                startActivity(I);
+            }
+        });
+        btnPieChart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent I = new Intent(MainActivity.this, PieChartActivity.class);
+                startActivity(I);
             }
         });
     }
@@ -170,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
     private void updateDisplay() {
         mAdapter = new LiftAdapter(this, mFilteredLifts.getLifts());
 
-        mLiftList.setAdapter(mAdapter);
+        liftList.setAdapter(mAdapter);
     }
 
     /**
