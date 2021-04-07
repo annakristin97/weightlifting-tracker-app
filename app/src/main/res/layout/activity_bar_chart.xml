@@ -3,11 +3,128 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/colorBackground">
 
-    <com.github.mikephil.charting.charts.BarChart
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+
+    <TextView
+        android:id="@+id/timeIntervalFilterLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="5dp"
+        android:text="Time Interval"
+        android:textColor="@color/colorAccent"
+        android:textSize="12sp" />
+
+    <Spinner
+        android:id="@+id/timeIntervalFilter"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/red_outline"
+        android:popupBackground="@color/colorSpinnerBackground"
+        android:spinnerMode="dropdown"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/white"
+        android:entries="@array/timeIntervalItems" />
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+
+    <TextView
+        android:id="@+id/typeFilterLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="5dp"
+        android:text="Lift"
+        android:textColor="@color/colorAccent"
+        android:textSize="12sp" />
+
+    <Spinner
+        android:id="@+id/typeFilter"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/red_outline"
+        android:popupBackground="@color/colorSpinnerBackground"
+        android:spinnerMode="dropdown"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/white"
+        android:entries="@array/typeItems" />
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+
+    <TextView
+        android:id="@+id/repsFilterLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="5dp"
+        android:text="Reps"
+        android:textColor="@color/colorAccent"
+        android:textSize="12sp" />
+
+    <Spinner
+        android:id="@+id/repsFilter"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/red_outline"
+        android:popupBackground="@color/colorSpinnerBackground"
+        android:spinnerMode="dropdown"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/white"
+        android:entries="@array/repsItems" />
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+
+    <Button
+        android:id="@+id/searchButton"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/mybutton"
+        android:text="UPDATE"
+        android:textColor="@color/colorAccentWhite" />
+
+    <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/barchart"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="400dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"/>
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
 
 </LinearLayout>

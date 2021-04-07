@@ -172,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
                     elem.getLong("weight"),
                     elem.getLong("sets"),
                     elem.getLong("reps"),
-                    cal.getTime());
+                    elem.getLong("logTime"));
             lifts.add(lift);
         }
 

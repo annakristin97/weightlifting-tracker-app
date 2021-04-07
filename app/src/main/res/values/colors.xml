@@ -2,8 +2,10 @@
 <resources>
     <color name="colorPrimary">#FF8552</color>
     <color name="colorPrimaryDark">#39393A</color>
-    <color name="colorAccent">#4CB963</color>
+    <color name="colorAccent">#DD2C00</color>
     <color name="colorAccentWhite">#F7F7FF</color>
     <color name="colorAccentWhite2">#F2F7F7FF</color>
     <color name="colorTextGrey">#737373</color>
+    <color name="colorBackground">#222222</color>
+    <color name="colorSpinnerBackground">#333333</color>
 </resources>

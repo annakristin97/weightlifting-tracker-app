@@ -2,6 +2,9 @@ package com.example.weightliftingapp.Entities;
 
 import java.util.List;
 
+/**
+ * List of lifts - used to store multiple (filtered) lifts to plot or show in ListView
+ */
 public class FilteredLifts {
 
     private List<Lift> Lifts;

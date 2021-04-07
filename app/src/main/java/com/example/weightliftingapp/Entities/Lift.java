@@ -1,6 +1,9 @@
 package com.example.weightliftingapp.Entities;
 import java.util.Date;
 
+/**
+ * Entity for single Lift
+ */
 public class Lift {
     public long itemID;
 
@@ -8,13 +11,13 @@ public class Lift {
     private long weight;
     private long reps;
     private long sets;
-    private Date logTime;
+    private long logTime;
 
     public Lift() {
 
     }
 
-    public Lift(long itemID, String liftName, long weight, long reps, long sets, Date logTime) {
+    public Lift(long itemID, String liftName, long weight, long reps, long sets, long logTime) {
         this.itemID = itemID;
         this.liftName = liftName;
         this.weight = weight;
@@ -63,11 +66,11 @@ public class Lift {
         this.sets = sets;
     }
 
-    public Date getLogTime() {
+    public long getLogTime() {
         return logTime;
     }
 
-    public void setLogTime(Date logTime) {
+    public void setLogTime(long logTime) {
         this.logTime = logTime;
     }
 }
