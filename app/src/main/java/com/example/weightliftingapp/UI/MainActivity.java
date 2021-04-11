@@ -107,7 +107,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // update graph content
-                getLifts(typeFilter.getSelectedItem().toString());
+                getLifts(typeFilter.getSelectedItem().toString(),
+                        timeIntervalFilter.getSelectedItem().toString(),
+                        repsFilter.getSelectedItem().toString(),
+                        setsFilter.getSelectedItem().toString());
             }
         });
     }
@@ -116,13 +119,16 @@ public class MainActivity extends AppCompatActivity {
      * Get lifts by liftName
      * TODO: bæta við timeInterval, reps og sets
      */
-    public void getLifts(String type) {
+    public void getLifts(String liftName, String timeInterval, String reps, String sets) {
         RequestBody formBody = new FormBody.Builder()
-                .add("liftName", type)
+                .add("timeInterval", timeInterval)
+                .add("liftName", liftName)
+                .add("sets", sets)
+                .add("reps", reps)
                 .build();
 
         Request request = new Request.Builder()
-                .url("http://10.0.2.2:8090/lifts/liftname")
+                .url("http://10.0.2.2:8090/lifts/search")
                 .post(formBody)
                 .build();
 
@@ -216,6 +222,7 @@ public class MainActivity extends AppCompatActivity {
      * Update graph based on filtered data
      */
     private void updateDisplay() throws ParseException {
+
         // connect chart variable to the xml object
         LineChart chart = findViewById(R.id.barchart);
 
