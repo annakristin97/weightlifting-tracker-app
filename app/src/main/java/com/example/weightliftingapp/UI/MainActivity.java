@@ -1,22 +1,25 @@
 package com.example.weightliftingapp.UI;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.weightliftingapp.Entities.FilteredLifts;
 import com.example.weightliftingapp.Entities.Lift;
 import com.example.weightliftingapp.R;
-
-import android.content.Context;
-import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ListView;
-import android.widget.Toast;
+import com.github.mikephil.charting.charts.BarChart;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,19 +29,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import com.github.mikephil.charting.charts.BarChart;
-
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
+
     ListView liftList;
 
     Button btnBarChart, btnPieChart, searchButton;
@@ -52,6 +51,35 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        //kannski breyta her??
+        BottomNavigationView BottomNavigationView = findViewById(R.id.bottomNavigationView);
+        //default selected
+        BottomNavigationView.setSelectedItemId(R.id.navigation_graph);
+
+        //item selection for navigation
+        BottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    ///grafið gefur okkur homescreeninn
+                    case R.id.navigation_graph:
+                        //startActivity(new Intent(getApplicationContext(), BarChartActivity.class));
+                        //overridePendingTransition(0, 0);
+                        return false;
+                    case R.id.navigation_settings:
+                        startActivity(new Intent(getApplicationContext()
+                                , HomeFragment.class));
+                        overridePendingTransition(0, 0);
+                        return true;
+                    //case R.id.fab:
+                      //  return true;
+                }
+                return false;
+            }
+        });
+
         ButterKnife.bind(this);
 
         liftList = findViewById(R.id.liftList);

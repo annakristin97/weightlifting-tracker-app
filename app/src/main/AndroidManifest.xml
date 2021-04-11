@@ -27,6 +27,9 @@
         <activity
             android:name=".UI.PieChartActivity"
             android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".UI.HomeFragment"
+            android:windowSoftInputMode="adjustResize" />
     </application>
 
 </manifest>
