@@ -2,14 +2,17 @@ package com.example.weightliftingapp.UI;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -19,6 +22,12 @@ import com.example.weightliftingapp.Entities.FilteredLifts;
 import com.example.weightliftingapp.Entities.Lift;
 import com.example.weightliftingapp.R;
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.json.JSONArray;
@@ -26,26 +35,30 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    ListView liftList;
-
-    Button btnBarChart, btnPieChart, searchButton;
-
     public static final String TAG = MainActivity.class.getSimpleName();
 
     private FilteredLifts mFilteredLifts;
-    private LiftAdapter mAdapter;
+
+    Button searchButton;
+    Spinner timeIntervalFilter, typeFilter, repsFilter, setsFilter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,52 +95,42 @@ public class MainActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        liftList = findViewById(R.id.liftList);
-
+        // connect our variables to the xml objects
         searchButton = findViewById(R.id.searchButton);
+        timeIntervalFilter = findViewById(R.id.timeIntervalFilter);
+        typeFilter = findViewById(R.id.typeFilter);
+        repsFilter = findViewById(R.id.repsFilter);
+        setsFilter = findViewById(R.id.setsFilter);
 
+        // click search button
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("Leita");
-                getLifts();
-            }
-        });
-
-        BarChart barChart = (BarChart) findViewById(R.id.barchart);
-
-        btnBarChart = findViewById(R.id.btnBarChart);
-        btnPieChart = findViewById(R.id.btnPieChart);
-
-        btnBarChart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent I = new Intent(MainActivity.this, BarChartActivity.class);
-                startActivity(I);
-            }
-        });
-        btnPieChart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent I = new Intent(MainActivity.this, PieChartActivity.class);
-                startActivity(I);
+                // update graph content
+                getLifts(typeFilter.getSelectedItem().toString());
             }
         });
     }
 
     /**
-     * Hjálparfall til þess að sækja allar liftur items
+     * Get lifts by liftName
+     * TODO: bæta við timeInterval, reps og sets
      */
-    public void getLifts() {
+    public void getLifts(String type) {
+        RequestBody formBody = new FormBody.Builder()
+                .add("liftName", type)
+                .build();
+
         Request request = new Request.Builder()
-                .url("http://10.0.2.2:8090/lifts")
+                .url("http://10.0.2.2:8090/lifts/liftname")
+                .post(formBody)
                 .build();
 
         callBackend(request);
     }
 
     /**
-     * Kallar á bakenda til þess að sækja allar liftur
+     * Call backend for filtered lifts
      */
     private void callBackend(Request request){
         OkHttpClient client = new OkHttpClient();
@@ -160,13 +163,17 @@ public class MainActivity extends AppCompatActivity {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    updateDisplay();
+                                    try {
+                                        updateDisplay();
+                                    } catch (ParseException e) {
+                                        e.printStackTrace();
+                                    }
                                 }
                             });
                         } else {
                             alertUserAboutError();
                         }
-                    } catch (IOException e) {
+                    } catch (IOException | ParseException e) {
                         Log.e(TAG, "Exception caught: ", e);
                     } catch (JSONException e) {
                         Log.e(TAG, "JSON caught: ", e);
@@ -179,9 +186,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Sækir upplýsingar um filtered lifts og setur í listann
+     * Take response from backend, parse from JSONObject -> Lift and store in filteredLifts variable
      */
-    private FilteredLifts parseLiftListDetails(String jsonData) throws JSONException{
+    private FilteredLifts parseLiftListDetails(String jsonData) throws JSONException, ParseException {
 
         FilteredLifts filteredLifts = new FilteredLifts();
 
@@ -189,11 +196,7 @@ public class MainActivity extends AppCompatActivity {
         JSONArray array=new JSONArray(jsonData);
         for(int i=0;i<array.length();i++){
             JSONObject elem=(JSONObject)array.get(i);
-            //TODO: laga Date handling
-            Calendar cal = Calendar.getInstance();
-            cal.set(Calendar.YEAR, 2021);
-            cal.set(Calendar.MONTH, Calendar.JANUARY);
-            cal.set(Calendar.DAY_OF_MONTH, 1);
+
             Lift lift = new Lift(
                     elem.getLong("itemID"),
                     elem.getString("liftName"),
@@ -210,16 +213,66 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Update-ar view
+     * Update graph based on filtered data
      */
-    private void updateDisplay() {
-        mAdapter = new LiftAdapter(this, mFilteredLifts.getLifts());
+    private void updateDisplay() throws ParseException {
+        // connect chart variable to the xml object
+        LineChart chart = findViewById(R.id.barchart);
 
-        liftList.setAdapter(mAdapter);
+        // format the chart (colors, text size, label orientation,..)
+        chart.getXAxis().setValueFormatter(new MyXAxisValueFormatter());
+        chart.getXAxis().setTextColor(Color.WHITE);
+        chart.getXAxis().setTextSize(12);
+        chart.getXAxis().setLabelRotationAngle(45);
+        chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+        chart.getAxisLeft().setTextColor(Color.WHITE);
+        chart.getAxisLeft().setTextSize(12);
+        chart.getAxisRight().setDrawLabels(false);
+        chart.getLegend().setTextColor(Color.WHITE);
+        chart.getLegend().setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
+        chart.getLegend().setTextSize(12);
+
+        if(mFilteredLifts != null) {
+            // retrieve current list of lifts
+            List<Lift> list = mFilteredLifts.getLifts();
+            ArrayList liftList = new ArrayList();
+
+            // sort by lift log time IMPORTANT
+            Collections.sort(list, new Comparator<Lift>() {
+                @Override
+                public int compare(final Lift object1, final Lift object2) {
+                    return Long.compare(object1.getLogTime(), object2.getLogTime());
+                }
+            });
+
+            for (int i=0; i<list.size(); i++) {
+                // create entry containing log time and weight of lift
+                liftList.add(new BarEntry(list.get(i).getLogTime(), list.get(i).getWeight()));
+            }
+
+            // create dataset
+            LineDataSet bardataset = new LineDataSet(liftList, typeFilter.getSelectedItem().toString());
+
+            // format graph line
+            bardataset.setColor(Color.RED);
+            bardataset.setCircleColor(Color.BLACK);
+            bardataset.setFormSize(6);
+            bardataset.setValueTextSize(0);
+
+            // animation on graph create
+            chart.animateY(5000);
+
+            // add data to chart
+            LineData data = new LineData(bardataset);
+            chart.setData(data);
+
+            // format line label text color
+            chart.getLineData().setValueTextColor(Color.WHITE);
+        }
     }
 
     /**
-     * Athugar hvort network sé aðgengilegt
+     * Checks if backend is accessible
      */
     private boolean isNetworkAvailable() {
         ConnectivityManager manager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -230,7 +283,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Upplýsir notanda um Error
+     * Error popup
      */
     private void alertUserAboutError() {
         AlertDialogFragment dialog = new AlertDialogFragment();
