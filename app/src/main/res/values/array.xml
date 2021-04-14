@@ -6,6 +6,7 @@
         <item>3 Months</item>
         <item>Year</item>
         <item>5 Years</item>
+        <item>All</item>
     </string-array>
     <string-array name="typeItems">
         <item>Deadlift</item>
@@ -17,6 +18,7 @@
         <item>Power Snatch</item>
         <item>Power Clean</item>
         <item>Jerk</item>
+        <item>All</item>
     </string-array>
     <string-array name="repsItems">
         <item>1</item>
@@ -29,6 +31,7 @@
         <item>8</item>
         <item>9</item>
         <item>10</item>
+        <item>All</item>
     </string-array>
     <string-array name="setsItems">
         <item>1</item>
@@ -41,5 +44,6 @@
         <item>8</item>
         <item>9</item>
         <item>10</item>
+        <item>All</item>
     </string-array>
 </resources>

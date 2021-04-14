@@ -1,7 +1,5 @@
 package com.example.weightliftingapp.UI;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
@@ -13,10 +11,11 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.weightliftingapp.Entities.FilteredLifts;
 import com.example.weightliftingapp.Entities.Lift;
 import com.example.weightliftingapp.R;
-
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
@@ -192,8 +191,9 @@ public class BarChartActivity extends AppCompatActivity {
         chart.getLegend().setTextColor(Color.WHITE);
         chart.getLegend().setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
         chart.getLegend().setTextSize(12);
+        chart.setNoDataText("No data! GO LIFT");
 
-        if(mFilteredLifts != null) {
+        if(mFilteredLifts != null && !mFilteredLifts.getLifts().isEmpty()  ) {
             // retrieve current list of lifts
             List<Lift> list = mFilteredLifts.getLifts();
             ArrayList liftList = new ArrayList();
