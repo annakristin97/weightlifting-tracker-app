@@ -3,30 +3,27 @@ package com.example.weightliftingapp.UI;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.weightliftingapp.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-/// vantar að bæta við fyrir plús takkann
 
-public class HomeFragment extends AppCompatActivity {
+public class AddFragment extends AppCompatActivity {
 
-    FloatingActionButton AddButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_settings);
+        setContentView(R.layout.fragment_add);
 
         //kannski breyta her??
         BottomNavigationView BottomNavigationView = findViewById(R.id.bottomNavigationView);
         //default selected
-        BottomNavigationView.setSelectedItemId(R.id.navigation_settings);
+        //BottomNavigationView.setSelectedItemId(R.id.fab);
+        BottomNavigationView.getMenu().setGroupCheckable(0, false, true);
 
         //item selection for navigation
         BottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -39,7 +36,12 @@ public class HomeFragment extends AppCompatActivity {
                         overridePendingTransition(0, 0);
                         return true;
                     case R.id.navigation_settings:
-                        return false;
+                        startActivity(new Intent(getApplicationContext()
+                                , HomeFragment.class));
+                        overridePendingTransition(0, 0);
+                        return true;
+                    //case R.id.fab:
+                      //  return false;
                     //case R.id.fab:
                     //  return true;
                 }
@@ -47,21 +49,8 @@ public class HomeFragment extends AppCompatActivity {
             }
         });
 
-        //þegar við ýtum á plúsinn
-        AddButton = findViewById(R.id.fab);
-        AddButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openAddFragment();
-            }
-        });
-
     }
 
-    public void openAddFragment(){
-        Intent intent = new Intent(this, AddFragment.class);
-        startActivity(intent);
-    }
 
 
 

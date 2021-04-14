@@ -30,6 +30,9 @@
         <activity
             android:name=".UI.HomeFragment"
             android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".UI.AddFragment"
+            android:windowSoftInputMode="adjustResize" />
     </application>
 
 </manifest>

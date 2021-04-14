@@ -9,9 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -21,7 +19,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.weightliftingapp.Entities.FilteredLifts;
 import com.example.weightliftingapp.Entities.Lift;
 import com.example.weightliftingapp.R;
-import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
@@ -29,6 +26,7 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,7 +35,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -58,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
     private FilteredLifts mFilteredLifts;
 
     Button searchButton;
+    FloatingActionButton AddButton;
     Spinner timeIntervalFilter, typeFilter, repsFilter, setsFilter;
 
     @Override
@@ -102,6 +100,16 @@ public class MainActivity extends AppCompatActivity {
         repsFilter = findViewById(R.id.repsFilter);
         setsFilter = findViewById(R.id.setsFilter);
 
+        //þegar við ýtum á plúsinn
+        AddButton = findViewById(R.id.fab);
+        AddButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openAddFragment();
+            }
+        });
+
+        
         // click search button
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,6 +121,11 @@ public class MainActivity extends AppCompatActivity {
                         setsFilter.getSelectedItem().toString());
             }
         });
+    }
+
+    public void openAddFragment(){
+        Intent intent = new Intent(this, AddFragment.class);
+        startActivity(intent);
     }
 
     /**
@@ -170,6 +183,7 @@ public class MainActivity extends AppCompatActivity {
                                 @Override
                                 public void run() {
                                     try {
+                                        //Log.d(TAG, "updateDisplay() — updating item: " + jsonData);
                                         updateDisplay();
                                     } catch (ParseException e) {
                                         e.printStackTrace();
