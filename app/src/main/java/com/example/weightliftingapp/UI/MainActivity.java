@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -39,6 +40,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -58,6 +60,9 @@ public class MainActivity extends AppCompatActivity {
 
     private FilteredLifts mFilteredLifts;
 
+    private ArrayList<String> list;
+    private ArrayAdapter<String> arrayAdapter;
+
     Button searchButton;
     FloatingActionButton AddButton;
     Spinner timeIntervalFilter, typeFilter, repsFilter, setsFilter;
@@ -67,6 +72,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // connect our variables to the xml objects
+        searchButton = findViewById(R.id.searchButton);
+        timeIntervalFilter = findViewById(R.id.timeIntervalFilter);
+        typeFilter = findViewById(R.id.typeFilter);
+        repsFilter = findViewById(R.id.repsFilter);
+        setsFilter = findViewById(R.id.setsFilter);
+
+        graphButton = findViewById(R.id.graph);
+        tableButton = findViewById(R.id.table);
 
         //kannski breyta her??
         BottomNavigationView BottomNavigationView = findViewById(R.id.bottomNavigationView);
@@ -97,15 +112,11 @@ public class MainActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        // connect our variables to the xml objects
-        searchButton = findViewById(R.id.searchButton);
-        timeIntervalFilter = findViewById(R.id.timeIntervalFilter);
-        typeFilter = findViewById(R.id.typeFilter);
-        repsFilter = findViewById(R.id.repsFilter);
-        setsFilter = findViewById(R.id.setsFilter);
+        list = new ArrayList<>();
+        arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
+        typeFilter.setAdapter(arrayAdapter);
 
-        graphButton = findViewById(R.id.graph);
-        tableButton = findViewById(R.id.table);
+        getDistinctLiftNames();
 
         //þegar við ýtum á plúsinn
         AddButton = findViewById(R.id.fab);
@@ -176,6 +187,74 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         callBackend(request);
+    }
+
+    public String[] getDistinctLiftNames() {
+        Request request = new Request.Builder()
+                .url("http://10.0.2.2:8090/lifts/liftnames")
+                .build();
+
+        return callBackendLiftNames(request);
+    }
+
+    public String[] callBackendLiftNames(Request request) {
+        OkHttpClient client = new OkHttpClient();
+        List<String> list = new ArrayList<>();
+
+        if(isNetworkAvailable()) {
+            Call call = client.newCall(request);
+            call.enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                        }
+                    });
+                    alertUserAboutError();
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                        }
+                    });
+                    try {
+                        String responseData = response.body().string();
+                        Log.v(TAG, responseData);
+                        if (response.isSuccessful()) {
+                            JSONArray arr = new JSONArray(responseData);
+                            List<String> list = new ArrayList<String>();
+                            for(int i = 0; i < arr.length(); i++){
+                                list.add(arr.get(i).toString());
+                            }
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    updateAdapter(list.toArray(new String[0]));
+                                }
+                            });
+                        } else {
+                            alertUserAboutError();
+                        }
+                    } catch (JSONException e) {
+                        Log.e(TAG, "JSON caught: ", e);
+                    }
+                }
+            });
+        } else {
+            Toast.makeText(this, "Network unavailable", Toast.LENGTH_LONG).show();
+        }
+
+        return list.toArray(new String[0]);
+    }
+
+    public void updateAdapter(String[] result) {
+        System.out.println(result);
+        arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, result);
+        typeFilter.setAdapter(arrayAdapter);
     }
 
     /**

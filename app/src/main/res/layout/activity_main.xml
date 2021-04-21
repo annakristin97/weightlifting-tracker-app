@@ -122,8 +122,7 @@
                 android:layout_height="match_parent"
                 android:spinnerMode="dropdown"
                 android:textColor="@android:color/white"
-                android:textColorHint="@android:color/white"
-                android:entries="@array/typeItems" />
+                android:textColorHint="@android:color/white"/>
         </RelativeLayout>
 
         <Space
