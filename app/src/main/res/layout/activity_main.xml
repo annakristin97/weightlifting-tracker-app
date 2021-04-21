@@ -31,17 +31,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:layout_marginTop="5dp"
             android:text="Time Interval"
             android:textColor="@color/colorAccent"
-            android:textSize="12sp" />
+            android:textSize="16sp"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
             android:background="@drawable/red_outline" >
             <Spinner
@@ -66,17 +64,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:layout_marginTop="5dp"
             android:text="Lift"
             android:textColor="@color/colorAccent"
-            android:textSize="12sp" />
+            android:textSize="16sp" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
             android:background="@drawable/red_outline" >
             <Spinner
@@ -116,17 +112,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:layout_marginTop="5dp"
             android:text="Reps"
             android:textColor="@color/colorAccent"
-            android:textSize="12sp" />
+            android:textSize="16sp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:layout_marginBottom="5dp"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/red_outline" >
                 <Spinner
@@ -154,17 +148,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:layout_marginTop="5dp"
             android:text="Sets"
             android:textColor="@color/colorAccent"
-            android:textSize="12sp" />
+            android:textSize="16sp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:layout_marginBottom="5dp"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/red_outline" >
                 <Spinner
@@ -193,9 +185,10 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_marginBottom="10dp"
+            android:layout_marginTop="5dp"
             android:background="@drawable/mybutton"
             android:text="UPDATE"
-            android:textColor="@color/colorAccentWhite" />
+            android:textColor="@color/colorBackground" />
 
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/barchart"
