@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="timeIntervalItems">
+        <item>All</item>
         <item>Week</item>
         <item>Month</item>
         <item>3 Months</item>
         <item>Year</item>
         <item>5 Years</item>
-        <item>All</item>
     </string-array>
     <string-array name="typeItems">
         <item>Deadlift</item>
         <item>Squat</item>
         <item>Bench Press</item>
+        <item>Push Press</item>
         <item>Shoulder Press</item>
         <item>Snatch</item>
         <item>Clean</item>
         <item>Power Snatch</item>
         <item>Power Clean</item>
-        <item>Jerk</item>
-        <item>All</item>
     </string-array>
     <string-array name="repsItems">
+        <item>All</item>
         <item>1</item>
         <item>2</item>
         <item>3</item>
@@ -31,9 +31,9 @@
         <item>8</item>
         <item>9</item>
         <item>10</item>
-        <item>All</item>
     </string-array>
     <string-array name="setsItems">
+        <item>All</item>
         <item>1</item>
         <item>2</item>
         <item>3</item>
@@ -44,6 +44,5 @@
         <item>8</item>
         <item>9</item>
         <item>10</item>
-        <item>All</item>
     </string-array>
 </resources>

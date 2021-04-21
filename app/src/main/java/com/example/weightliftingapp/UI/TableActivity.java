@@ -5,30 +5,23 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ListView;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.weightliftingapp.Entities.FilteredLifts;
 import com.example.weightliftingapp.Entities.Lift;
 import com.example.weightliftingapp.R;
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -39,39 +32,36 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 
 import butterknife.ButterKnife;
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class TableActivity extends AppCompatActivity {
 
-    public static final String TAG = MainActivity.class.getSimpleName();
+    public static final String TAG = TableActivity.class.getSimpleName();
 
-    private FilteredLifts mFilteredLifts;
+    private LiftAdapter liftAdapter;
+    private FilteredLifts filteredLifts;
 
-    Button searchButton;
     FloatingActionButton AddButton;
-    Spinner timeIntervalFilter, typeFilter, repsFilter, setsFilter;
     RadioButton graphButton, tableButton;
+    ListView prList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_table);
 
         //kannski breyta her??
         BottomNavigationView BottomNavigationView = findViewById(R.id.bottomNavigationView);
         //default selected
         BottomNavigationView.setSelectedItemId(R.id.navigation_graph);
+
+        getLifts();
 
         //item selection for navigation
         BottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -89,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
                         overridePendingTransition(0, 0);
                         return true;
                     //case R.id.fab:
-                      //  return true;
+                    //  return true;
                 }
                 return false;
             }
@@ -97,18 +87,12 @@ public class MainActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        // connect our variables to the xml objects
-        searchButton = findViewById(R.id.searchButton);
-        timeIntervalFilter = findViewById(R.id.timeIntervalFilter);
-        typeFilter = findViewById(R.id.typeFilter);
-        repsFilter = findViewById(R.id.repsFilter);
-        setsFilter = findViewById(R.id.setsFilter);
-
         graphButton = findViewById(R.id.graph);
         tableButton = findViewById(R.id.table);
+        AddButton = findViewById(R.id.fab);
+        prList = findViewById(R.id.prList);
 
         //þegar við ýtum á plúsinn
-        AddButton = findViewById(R.id.fab);
         AddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,23 +100,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        
-        // click search button
-        searchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // update graph content
-                getLifts(typeFilter.getSelectedItem().toString(),
-                        timeIntervalFilter.getSelectedItem().toString(),
-                        repsFilter.getSelectedItem().toString(),
-                        setsFilter.getSelectedItem().toString());
-            }
-        });
-
         graphButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 graphButton.setTextColor(Color.BLACK);
                 tableButton.setTextColor(Color.WHITE);
+                openMainActivity();
             }
         });
 
@@ -140,7 +112,6 @@ public class MainActivity extends AppCompatActivity {
             if (isChecked) {
                 tableButton.setTextColor(Color.BLACK);
                 graphButton.setTextColor(Color.WHITE);
-                openTableActivity();
             }
         });
     }
@@ -150,29 +121,19 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void openTableActivity(){
+    public void openMainActivity(){
         Intent intent = new Intent(this,
-                TableActivity.class);
-
+                MainActivity.class);
         startActivity(intent);
         overridePendingTransition(0, 0);
     }
 
     /**
-     * Get lifts by liftName
-     * TODO: bæta við timeInterval, reps og sets
+     * Hjálparfall til þess að sækja öll items
      */
-    public void getLifts(String liftName, String timeInterval, String reps, String sets) {
-        RequestBody formBody = new FormBody.Builder()
-                .add("timeInterval", timeInterval)
-                .add("liftName", liftName)
-                .add("sets", sets)
-                .add("reps", reps)
-                .build();
-
+    public void getLifts() {
         Request request = new Request.Builder()
-                .url("http://10.0.2.2:8090/lifts/search")
-                .post(formBody)
+                .url("http://10.0.2.2:8090/lifts/pr")
                 .build();
 
         callBackend(request);
@@ -208,22 +169,17 @@ public class MainActivity extends AppCompatActivity {
                         String jsonData = response.body().string();
                         Log.v(TAG, jsonData);
                         if (response.isSuccessful()) {
-                            mFilteredLifts = parseLiftListDetails(jsonData);
+                            filteredLifts = parseLiftListDetails(jsonData);
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    try {
-                                        //Log.d(TAG, "updateDisplay() — updating item: " + jsonData);
-                                        updateDisplay();
-                                    } catch (ParseException e) {
-                                        e.printStackTrace();
-                                    }
+                                    updateDisplay();
                                 }
                             });
                         } else {
                             alertUserAboutError();
                         }
-                    } catch (IOException | ParseException e) {
+                    } catch (IOException e) {
                         Log.e(TAG, "Exception caught: ", e);
                     } catch (JSONException e) {
                         Log.e(TAG, "JSON caught: ", e);
@@ -236,23 +192,31 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Take response from backend, parse from JSONObject -> Lift and store in filteredLifts variable
+     * Update-ar view
      */
-    private FilteredLifts parseLiftListDetails(String jsonData) throws JSONException, ParseException {
+    private void updateDisplay() {
+        liftAdapter = new LiftAdapter(this, filteredLifts.getLifts());
+
+        prList.setAdapter(liftAdapter);
+    }
+
+    /**
+     * Sækir upplýsingar um pr lyftur og setur í listann
+     */
+    private FilteredLifts parseLiftListDetails(String jsonData) throws JSONException{
 
         FilteredLifts filteredLifts = new FilteredLifts();
 
-        ArrayList<Lift> lifts=new ArrayList<Lift>();
-        JSONArray array=new JSONArray(jsonData);
-        for(int i=0;i<array.length();i++){
+        ArrayList<Lift> lifts = new ArrayList<Lift>();
+        JSONArray array = new JSONArray(jsonData);
+        for(int i=0;i<array.length();i++) {
             JSONObject elem=(JSONObject)array.get(i);
-
             Lift lift = new Lift(
                     elem.getLong("itemID"),
                     elem.getString("liftName"),
                     elem.getLong("weight"),
-                    elem.getLong("sets"),
                     elem.getLong("reps"),
+                    elem.getLong("sets"),
                     elem.getLong("logTime"));
             lifts.add(lift);
         }
@@ -262,66 +226,6 @@ public class MainActivity extends AppCompatActivity {
         return filteredLifts;
     }
 
-    /**
-     * Update graph based on filtered data
-     */
-    private void updateDisplay() throws ParseException {
-
-        // connect chart variable to the xml object
-        LineChart chart = findViewById(R.id.barchart);
-
-        // format the chart (colors, text size, label orientation,..)
-        chart.getXAxis().setValueFormatter(new MyXAxisValueFormatter());
-        chart.getXAxis().setTextColor(Color.WHITE);
-        chart.getXAxis().setTextSize(12);
-        chart.getXAxis().setLabelRotationAngle(45);
-        chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
-        chart.getAxisLeft().setTextColor(Color.WHITE);
-        chart.getAxisLeft().setTextSize(12);
-        chart.getAxisRight().setDrawLabels(false);
-        chart.getLegend().setTextColor(Color.WHITE);
-        chart.getLegend().setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
-        chart.getLegend().setTextSize(12);
-        chart.setBorderWidth(0);
-
-        if(mFilteredLifts != null) {
-            // retrieve current list of lifts
-            List<Lift> list = mFilteredLifts.getLifts();
-            ArrayList liftList = new ArrayList();
-
-            // sort by lift log time IMPORTANT
-            Collections.sort(list, new Comparator<Lift>() {
-                @Override
-                public int compare(final Lift object1, final Lift object2) {
-                    return Long.compare(object1.getLogTime(), object2.getLogTime());
-                }
-            });
-
-            for (int i=0; i<list.size(); i++) {
-                // create entry containing log time and weight of lift
-                liftList.add(new BarEntry(list.get(i).getLogTime(), list.get(i).getWeight()));
-            }
-
-            // create dataset
-            LineDataSet bardataset = new LineDataSet(liftList, typeFilter.getSelectedItem().toString());
-
-            // format graph line
-            bardataset.setColor(Color.rgb(147, 246, 144));
-            bardataset.setCircleColor(Color.BLACK);
-            bardataset.setFormSize(6);
-            bardataset.setValueTextSize(0);
-
-            // animation on graph create
-            chart.animateY(5000);
-
-            // add data to chart
-            LineData data = new LineData(bardataset);
-            chart.setData(data);
-
-            // format line label text color
-            chart.getLineData().setValueTextColor(Color.WHITE);
-        }
-    }
 
     /**
      * Checks if backend is accessible
@@ -341,5 +245,4 @@ public class MainActivity extends AppCompatActivity {
         AlertDialogFragment dialog = new AlertDialogFragment();
         dialog.show(getFragmentManager(), "error_dialog");
     }
-
 }

@@ -8,5 +8,5 @@
     <color name="colorAccentWhite2">#F2F7F7FF</color>
     <color name="colorTextGrey">#737373</color>
     <color name="colorBackground">#222222</color>
-    <color name="colorSpinnerBackground">#D9222222</color>
+    <color name="colorSpinnerBackground">#F2222222</color>
 </resources>

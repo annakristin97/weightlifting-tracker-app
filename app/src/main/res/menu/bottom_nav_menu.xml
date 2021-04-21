@@ -3,7 +3,7 @@
     <item
         android:id="@+id/navigation_graph"
         android:icon="@drawable/ic_graph"
-        android:title="Graph"/>
+        android:title="History"/>
 
     <item
         android:id="@+id/navigation_settings"
