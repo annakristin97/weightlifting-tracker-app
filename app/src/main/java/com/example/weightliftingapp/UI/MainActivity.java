@@ -160,8 +160,8 @@ public class MainActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
-        typeFilter.setAdapter(arrayAdapter);
+        /*arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
+        typeFilter.setAdapter(arrayAdapter);*/
 
         getDistinctLiftNames();
 
