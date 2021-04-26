@@ -47,8 +47,10 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -62,9 +64,7 @@ import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    ListView liftList;
-
-    Button btnBarChart, btnPieChart, searchButton;
+    Button searchButton;
     public int[] colors = {Color.RED,Color.BLUE, Color.GREEN, Color.YELLOW, Color.BLACK, Color.GRAY, Color.WHITE, Color.CYAN, Color.MAGENTA, Color.DKGRAY};
 
 
@@ -75,14 +75,10 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> list;
     private ArrayAdapter<String> arrayAdapter;
 
-    Button searchButton;
-    FloatingActionButton AddButton;
-    Spinner timeIntervalFilter, typeFilter, repsFilter, setsFilter;
     RadioButton graphButton, tableButton;
 
     ArrayList<FilteredLifts> AllFilteredLifts = new ArrayList<>();
 
-    Button searchButton;
     FloatingActionButton AddButton;
     Spinner timeIntervalFilter, repsFilter, setsFilter;
     Spinner typeFilter;
@@ -97,7 +93,6 @@ public class MainActivity extends AppCompatActivity {
         // connect our variables to the xml objects
         searchButton = findViewById(R.id.searchButton);
         timeIntervalFilter = findViewById(R.id.timeIntervalFilter);
-        typeFilter = findViewById(R.id.typeFilter);
         repsFilter = findViewById(R.id.repsFilter);
         setsFilter = findViewById(R.id.setsFilter);
 
@@ -130,7 +125,6 @@ public class MainActivity extends AppCompatActivity {
         // If you will set the limit, this button will not display automatically.
         multiSelectSpinnerWithSearch.setShowSelectAllButton(true);
 
-        multiSelectSpinnerWithSearch.get
 
         //A text that will display in clear text button
         multiSelectSpinnerWithSearch.setClearText("Close & Clear");
@@ -166,7 +160,6 @@ public class MainActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        list = new ArrayList<>();
         arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
         typeFilter.setAdapter(arrayAdapter);
 
@@ -181,24 +174,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        
-        // click search button
-        searchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // update graph content
-                getLifts(typeFilter.getSelectedItem().toString(),
-                        timeIntervalFilter.getSelectedItem().toString(),
-                        repsFilter.getSelectedItem().toString(),
-                        setsFilter.getSelectedItem().toString());
-            }
-        });
-
         tableButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                tableButton.setTextColor(Color.BLACK);
-                graphButton.setTextColor(Color.WHITE);
-                openTableActivity();
+                    if (isChecked) {
+                        tableButton.setTextColor(Color.BLACK);
+                        graphButton.setTextColor(Color.WHITE);
+                        openTableActivity();
+                    }
+                });
 
         // Removed second parameter, position. Its not required now..
         // If you want to pass preselected items, you can do it while making listArray,
@@ -242,37 +224,12 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void openAddFragment(){
-        Intent intent = new Intent(this, AddFragment.class);
-        startActivity(intent);
-    }
-
     public void openTableActivity(){
         Intent intent = new Intent(this,
                 TableActivity.class);
 
         startActivity(intent);
         overridePendingTransition(0, 0);
-    }
-
-    /**
-     * Get lifts by liftName
-     * TODO: bæta við timeInterval, reps og sets
-     */
-    public void getLifts(String liftName, String timeInterval, String reps, String sets) {
-        RequestBody formBody = new FormBody.Builder()
-                .add("timeInterval", timeInterval)
-                .add("liftName", liftName)
-                .add("sets", sets)
-                .add("reps", reps)
-                .build();
-
-        Request request = new Request.Builder()
-                .url("http://10.0.2.2:8090/lifts/search")
-                .post(formBody)
-                .build();
-
-        callBackend(request);
     }
     
     public void getLifts(List<String> liftNames, String timeInterval, String reps, String sets) {
@@ -388,37 +345,6 @@ public class MainActivity extends AppCompatActivity {
                         });
                         alertUserAboutError();
                     }
-
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                        }
-                    });
-                    try {
-                        String jsonData = response.body().string();
-                        Log.v(TAG, jsonData);
-                        if (response.isSuccessful()) {
-                            mFilteredLifts = parseLiftListDetails(jsonData);
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    try {
-                                        //Log.d(TAG, "updateDisplay() — updating item: " + jsonData);
-                                        updateDisplay();
-                                    } catch (ParseException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            });
-                        } else {
-                            alertUserAboutError();
-                        }
-                    } catch (IOException | ParseException e) {
-                        Log.e(TAG, "Exception caught: ", e);
-                    } catch (JSONException e) {
-                        Log.e(TAG, "JSON caught: ", e);
                     @Override
                     public void onResponse(Call call, Response response) throws IOException {
                         runOnUiThread(new Runnable() {
@@ -445,7 +371,7 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
 
-        }else {
+        }   else {
             Toast.makeText(this, "Network unavailable", Toast.LENGTH_LONG).show();
         }
 
