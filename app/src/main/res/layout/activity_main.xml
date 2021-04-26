@@ -81,6 +81,25 @@
             android:layout_marginRight="15dp"
             android:layout_marginBottom="10dp"
             android:entries="@array/typeItems" />
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/red_outline" >
+            <com.androidbuts.multispinnerfilter.MultiSpinnerSearch
+                android:id="@+id/multipleItemSelectionSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="1dp"
+                app:hintText="Select lifts"
+                app:highlightSelected="false"
+                app:textColor="@color/colorPrimaryDark"
+                app:clearText="@string/not_found"
+                android:textColor="@android:color/white"
+                android:textColorHint="@android:color/white"
+                android:textSize="@dimen/font_size"
+                android:entries="@array/typeItems"
+                />
+        </RelativeLayout>
+
 
         <Space
             android:layout_width="wrap_content"
