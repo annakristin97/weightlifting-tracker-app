@@ -44,7 +44,7 @@
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="25sp"
                 android:fontFamily="sans-serif-light"
-                android:includeFontPadding = "false"//>
+                android:includeFontPadding = "false"/>
 
             <EditText
                 android:id="@+id/new_liftname"
@@ -65,7 +65,7 @@
 
     </LinearLayout>
 
-    <!--<com.google.android.material.bottomappbar.BottomAppBar
+    <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottomAppBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -93,6 +93,6 @@
         app:backgroundTint="@color/colorPrimary"
         app:borderWidth="0dp"
         android:src="@drawable/ic_add"
-        app:layout_anchor="@id/bottomAppBar" />-->
+        app:layout_anchor="@id/bottomAppBar" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
