@@ -31,7 +31,6 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/lift_name_header"
             android:gravity="center"
             android:paddingBottom="10dp"
             android:paddingTop="20dp"
@@ -54,7 +53,7 @@
             android:layout_gravity="center">
 
             <Button
-                android:id="@+id/button_minus_sets"
+                android:id="@+id/button_plus_sets"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_toStartOf="@+id/sets_number"
@@ -66,7 +65,7 @@
                 android:textSize="30sp"
                 android:fontFamily="sans-serif-light"
                 android:gravity="center"
-                android:includeFontPadding="false"/>
+                android:includeFontPadding="false"//>
 
             <EditText
                 android:id="@+id/sets_number"
@@ -75,12 +74,12 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginRight="30dp"
                 android:layout_marginLeft="30dp"
-                android:text="1"
+                android:text="0"
                 android:inputType="number"
                 android:textSize="40sp" />
 
             <Button
-                android:id="@+id/button_plus_sets"
+                android:id="@+id/button_minus_sets"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_toEndOf="@id/sets_number"
@@ -111,7 +110,7 @@
             android:layout_gravity="center">
 
             <Button
-                android:id="@+id/button_minus_reps"
+                android:id="@+id/button_plus_reps"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_toStartOf="@+id/reps_number"
@@ -123,7 +122,7 @@
                 android:textSize="30sp"
                 android:fontFamily="sans-serif-light"
                 android:gravity="center"
-                android:includeFontPadding="false"/>
+                android:includeFontPadding="false"//>
 
             <EditText
                 android:id="@+id/reps_number"
@@ -132,12 +131,12 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginRight="30dp"
                 android:layout_marginLeft="30dp"
-                android:text="1"
+                android:text="0"
                 android:inputType="number"
                 android:textSize="40sp" />
 
             <Button
-                android:id="@+id/button_plus_reps"
+                android:id="@+id/button_minus_reps"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_toEndOf="@id/reps_number"
@@ -172,7 +171,7 @@
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:text="40"
+                android:text="40.0"
                 android:inputType="number"
                 android:textSize="40sp"
                 android:textAlignment="center"/>
@@ -191,7 +190,7 @@
         </RelativeLayout>
 
         <Button
-            android:id="@+id/saveButton"
+            android:id="@+id/searchButton"
             android:layout_width="200dp"
             android:layout_height="40dp"
             android:layout_marginLeft="15dp"
@@ -204,5 +203,36 @@
             android:layout_gravity="center"/>
 
     </LinearLayout>
+
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/bottomAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:fabCradleMargin="20dp"
+        app:fabCradleVerticalOffset="10dp"
+        app:fabCradleRoundedCornerRadius="20dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp"
+        android:layout_gravity="bottom">
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomNavigationView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            app:elevation="0dp"
+            app:menu="@menu/bottom_nav_menu" />
+
+    </com.google.android.material.bottomappbar.BottomAppBar>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_add"
+        app:backgroundTint="@color/colorPrimary"
+        app:layout_anchor="@id/bottomAppBar" />
+
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
