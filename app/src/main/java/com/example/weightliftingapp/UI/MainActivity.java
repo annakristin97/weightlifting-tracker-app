@@ -103,7 +103,8 @@ public class MainActivity extends AppCompatActivity {
 
         graphButton = findViewById(R.id.graph);
         tableButton = findViewById(R.id.table);
-        final List<String> list = Arrays.asList(getResources().getStringArray(R.array.typeItems));
+
+        final List<String> list = getDistinctLiftNames();
 
         final List<KeyPairBoolData> listArray1 = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
@@ -163,11 +164,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         ButterKnife.bind(this);
-
-        /*arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
-        typeFilter.setAdapter(arrayAdapter);*/
-
-        getDistinctLiftNames();
 
         //þegar við ýtum á plúsinn
         AddButton = findViewById(R.id.fab);
@@ -258,7 +254,7 @@ public class MainActivity extends AppCompatActivity {
         callBackend(requests);
     }
 
-    public String[] getDistinctLiftNames() {
+    public List<String> getDistinctLiftNames() {
         Request request = new Request.Builder()
                 .url("http://10.0.2.2:8090/lifts/liftnames")
                 .build();
@@ -266,7 +262,7 @@ public class MainActivity extends AppCompatActivity {
         return callBackendLiftNames(request);
     }
 
-    public String[] callBackendLiftNames(Request request) {
+    public List<String> callBackendLiftNames(Request request) {
         OkHttpClient client = new OkHttpClient();
         List<String> list = new ArrayList<>();
 
@@ -302,7 +298,7 @@ public class MainActivity extends AppCompatActivity {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    updateAdapter(list.toArray(new String[0]));
+                                    updateAdapter(list);
                                 }
                             });
                         } else {
@@ -317,13 +313,34 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Network unavailable", Toast.LENGTH_LONG).show();
         }
 
-        return list.toArray(new String[0]);
+        return list;
     }
 
-    public void updateAdapter(String[] result) {
-        System.out.println(result);
-        arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, result);
-        //typeFilter.setAdapter(arrayAdapter);
+    public void updateAdapter(List<String> result) {
+        final List<KeyPairBoolData> listArray1 = new ArrayList<>();
+        for (int i = 0; i < result.size(); i++) {
+            KeyPairBoolData h = new KeyPairBoolData();
+            h.setId(i + 1);
+            h.setName(result.get(i));
+            h.setSelected(i < 1);
+            listArray1.add(h);
+        }
+
+        multiSelectSpinnerWithSearch.setItems(listArray1, new MultiSpinnerListener() {
+            @Override
+            public void onItemsSelected(List<KeyPairBoolData> items) {
+                //BREYTA
+                SelectedLifts.clear();
+                for (int i = 0; i < items.size(); i++) {
+                    if (items.get(i).isSelected()) {
+                        Log.i(TAG, i + " : " + items.get(i).getName() + " : " + items.get(i).isSelected());
+                        //store items that where selected
+                        SelectedLifts.add(items.get(i).getName());
+                    }
+                }
+            }
+
+        });
     }
 
     /**
