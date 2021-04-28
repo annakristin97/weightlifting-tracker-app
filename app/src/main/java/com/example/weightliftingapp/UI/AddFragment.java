@@ -7,7 +7,9 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -37,6 +39,7 @@ public class AddFragment extends AppCompatActivity {
     public static final String TAG = AddFragment.class.getSimpleName();
 
     RecyclerView recyclerView;
+    Button addButton;
     String s1[];
 
     @Override
@@ -83,6 +86,23 @@ public class AddFragment extends AppCompatActivity {
             }
         });
 
+
+
+        //TODO: TAKA ÚT - BARA TIL AÐ TESTA NEW LOG :D
+        addButton = findViewById(R.id.button_new_liftname);
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openNewLog();
+            }
+        });
+    }
+
+    public void openNewLog(){
+        Intent intent = new Intent(this, NewLogActivity.class);
+        //TODO: setja selected liftname i staðin f. deadlift
+        intent.putExtra("liftname", "Deadlift");
+        startActivity(intent);
     }
 
     public String[] getDistinctLiftNames() {
