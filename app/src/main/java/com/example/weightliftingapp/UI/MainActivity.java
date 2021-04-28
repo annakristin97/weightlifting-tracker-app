@@ -6,11 +6,13 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -18,9 +20,11 @@ import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.androidbuts.multispinnerfilter.KeyPairBoolData;
@@ -85,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
     MultiSpinnerSearch multiSelectSpinnerWithSearch;
     List<String> SelectedLifts = new ArrayList<>();
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,7 +129,6 @@ public class MainActivity extends AppCompatActivity {
 
         // If you will set the limit, this button will not display automatically.
         multiSelectSpinnerWithSearch.setShowSelectAllButton(true);
-
 
         //A text that will display in clear text button
         multiSelectSpinnerWithSearch.setClearText("Close & Clear");
@@ -199,6 +203,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             }
+
         });
 
         // click search button

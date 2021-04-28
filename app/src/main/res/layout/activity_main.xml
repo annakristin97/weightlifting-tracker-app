@@ -122,10 +122,8 @@
                 android:layout_margin="1dp"
                 app:hintText="Select lifts"
                 app:highlightSelected="false"
-                app:textColor="@color/colorPrimaryDark"
                 app:clearText="@string/not_found"
                 android:textColor="@android:color/white"
-                android:textColorHint="@android:color/white"
                 android:textSize="@dimen/font_size"
                 android:entries="@array/typeItems"
                 />
