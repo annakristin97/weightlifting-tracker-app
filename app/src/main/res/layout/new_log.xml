@@ -25,7 +25,6 @@
             android:text="New log"
             android:textSize="40dp"
             android:textStyle="bold"
-            android:textColor="@android:color/white"
             android:paddingBottom="20dp"/>
 
         <TextView
@@ -33,18 +32,15 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:paddingBottom="10dp"
-            android:paddingTop="20dp"
             android:text="Bench Press"
-            android:textColor="@android:color/white"
             android:textSize="30dp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:paddingTop="30dp"
+            android:paddingTop="20dp"
             android:text="Sets:"
-            android:textColor="@android:color/white"
             android:textSize="25dp" />
 
         <RelativeLayout
@@ -99,9 +95,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:paddingTop="30dp"
+            android:paddingTop="20dp"
             android:text="Reps:"
-            android:textColor="@android:color/white"
             android:textSize="25dp" />
 
         <RelativeLayout
@@ -156,9 +151,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:paddingTop="30dp"
+            android:paddingTop="20dp"
             android:text="Weight:"
-            android:textColor="@android:color/white"
             android:textSize="25dp" />
 
         <RelativeLayout
@@ -182,7 +176,6 @@
                 android:layout_toEndOf="@id/weight_number"
                 android:layout_toRightOf="@+id/weight_number"
                 android:text="kg"
-                android:textColor="@android:color/white"
                 android:textSize="35sp"
                 android:layout_centerVertical="true"
                 android:fontFamily="sans-serif-light"/>
@@ -196,7 +189,7 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_marginBottom="10dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="30dp"
             android:background="@drawable/mybutton"
             android:text="SAVE"
             android:textColor="@color/colorBackground"
