@@ -33,6 +33,9 @@
         <activity
             android:name=".UI.TableActivity"
             android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".UI.NewLogActivity"
+            android:windowSoftInputMode="adjustResize" />
     </application>
 
 </manifest>

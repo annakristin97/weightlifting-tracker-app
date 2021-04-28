@@ -43,7 +43,7 @@
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="25sp"
                 android:fontFamily="sans-serif-light"
-                android:includeFontPadding = "false"//>
+                android:includeFontPadding = "false"/>
 
             <EditText
                 android:id="@+id/new_liftname"
