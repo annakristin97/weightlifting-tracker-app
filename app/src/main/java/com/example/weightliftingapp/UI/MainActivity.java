@@ -12,15 +12,10 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -33,7 +28,6 @@ import com.androidbuts.multispinnerfilter.MultiSpinnerSearch;
 import com.example.weightliftingapp.Entities.FilteredLifts;
 import com.example.weightliftingapp.Entities.Lift;
 import com.example.weightliftingapp.R;
-import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
@@ -52,7 +46,6 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -453,7 +446,7 @@ public class MainActivity extends AppCompatActivity {
         chart.getLegend().setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
         chart.getLegend().setTextSize(12);
 
-        if(AllFilteredLifts != null) {
+        if(AllFilteredLifts != null && AllFilteredLifts.size() > 0) {
 
             //ADD color matrix
 
@@ -462,9 +455,9 @@ public class MainActivity extends AppCompatActivity {
 
             for (int i = 0;i <AllFilteredLifts.size();i++) {
 
-                if (AllFilteredLifts.get(i) != null) {
+                if (AllFilteredLifts.get(i) != null && AllFilteredLifts.get(i).getLifts().size() > 0) {
 
-                    // retrieve current list of lifts
+                    // retrieve current list of lifts<s
                     List<Lift> list = AllFilteredLifts.get(i).getLifts();
                     Log.d(TAG, "AllfilterLitfs.get(i) i = : " + i + "list = " + list);
                     ArrayList liftList = new ArrayList();
