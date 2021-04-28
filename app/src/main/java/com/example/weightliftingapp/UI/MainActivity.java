@@ -318,7 +318,7 @@ public class MainActivity extends AppCompatActivity {
     public void updateAdapter(String[] result) {
         System.out.println(result);
         arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, result);
-        typeFilter.setAdapter(arrayAdapter);
+        //typeFilter.setAdapter(arrayAdapter);
     }
 
     /**
@@ -478,11 +478,17 @@ public class MainActivity extends AppCompatActivity {
                         liftList.add(new BarEntry(list.get(j).getLogTime(), list.get(j).getWeight()));
                     }
 
+                    String liftNameDisplay = "";
+
+                    for(String liftname : SelectedLifts) {
+                        if(list.get(0).getLiftName().contains(liftname)) liftNameDisplay = liftname;
+                    }
+
                     ///HER!
 
                     // create dataset
-                    LineDataSet bardataset = new LineDataSet(liftList, SelectedLifts.get(i)); //typeFilter.getSelectedItem().toString());
-                    Log.d(TAG, "selected lifts nr. " + i + " is " + SelectedLifts.get(i));
+                    LineDataSet bardataset = new LineDataSet(liftList, liftNameDisplay); //typeFilter.getSelectedItem().toString());
+                    Log.d(TAG, "selected lifts nr. " + i + " is " + liftNameDisplay);
 
                     // format graph line
                     bardataset.setColor(colors[i]);
