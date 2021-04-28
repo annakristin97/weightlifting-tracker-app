@@ -1,7 +1,7 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/containerAdd"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryDark"
@@ -10,7 +10,6 @@
 
     <LinearLayout
         android:id="@+id/linearLayoutAdd"
-
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
@@ -20,30 +19,48 @@
         android:orientation="vertical">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Add"
-            android:textSize="50dp"
-            android:gravity="center" />
-
-
-        <ListView
-            android:id="@+id/liftListAdd"
             android:layout_width="match_parent"
-            android:layout_height="330dp"
-            android:layout_weight="1" />
-
-        <Space
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:gravity="center"
+            android:text="New log"
+            android:textSize="40dp"
+            android:textStyle="bold"
+            android:paddingBottom="10dp"/>
 
+        <RelativeLayout
+            android:layout_width="235dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center">
 
+            <Button
+                android:id="@+id/button_new_liftname"
+                android:layout_width="45dp"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@+id/new_liftname"
+                android:layout_toLeftOf="@+id/new_liftname"
+                android:background="@drawable/add_button"
+                android:text="+"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="25sp"
+                android:fontFamily="sans-serif-light"
+                android:includeFontPadding = "false"//>
 
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="5" />
+            <EditText
+                android:id="@+id/new_liftname"
+                android:layout_width="190dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:textSize="22dp"
+                android:hint="Add new exercise"/>
+
+        </RelativeLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="484dp"
+            app:layout_anchor="@+id/linearLayoutAdd"
+            app:layout_anchorGravity="center" />
 
     </LinearLayout>
 
@@ -75,5 +92,7 @@
         android:src="@drawable/ic_add"
         app:backgroundTint="@color/colorPrimary"
         app:layout_anchor="@id/bottomAppBar" />
+
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
