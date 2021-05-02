@@ -73,8 +73,10 @@ public class NewLogActivity extends AppCompatActivity {
         setsMinusButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sets -= 1;
-                setsNumber.setText(String.valueOf(sets));
+                if(sets > 1) {
+                    sets -= 1;
+                    setsNumber.setText(String.valueOf(sets));
+                }
             }
         });
 
@@ -89,8 +91,10 @@ public class NewLogActivity extends AppCompatActivity {
         repsMinusButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                reps -= 1;
-                repsNumber.setText(String.valueOf(reps));
+                if(reps > 1) {
+                    reps -= 1;
+                    repsNumber.setText(String.valueOf(reps));
+                }
             }
         });
 
@@ -107,8 +111,9 @@ public class NewLogActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start,
                                       int before, int count) {
-                if(s.length() != 0)
+                if(s.length() != 0 && Long.parseLong(s.toString()) > 0) {
                     reps = Long.parseLong(s.toString());
+                }
             }
         });
 
@@ -125,8 +130,9 @@ public class NewLogActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start,
                                       int before, int count) {
-                if(s.length() != 0)
+                if(s.length() != 0 && Long.parseLong(s.toString()) > 0) {
                     sets = Long.parseLong(s.toString());
+                }
             }
         });
 
@@ -143,8 +149,9 @@ public class NewLogActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start,
                                       int before, int count) {
-                if(s.length() != 0)
+                if(s.length() != 0 && Long.parseLong(s.toString()) > 0) {
                     weight = Long.parseLong(s.toString());
+                }
             }
         });
 

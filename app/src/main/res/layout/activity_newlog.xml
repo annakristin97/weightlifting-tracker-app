@@ -57,7 +57,8 @@
                 android:layout_toStartOf="@+id/sets_number"
                 android:layout_toLeftOf="@+id/sets_number"
                 android:layout_centerVertical="true"
-                android:background="@drawable/plus_minus_buttons"
+                app:backgroundTint="@null"
+                android:background="@drawable/plus_minus_button"
                 android:text="—"
                 android:textColor="@color/colorGreenButton"
                 android:textSize="30sp"
@@ -73,6 +74,7 @@
                 android:layout_marginRight="30dp"
                 android:layout_marginLeft="30dp"
                 android:text="1"
+                android:digits="123456789."
                 android:inputType="number"
                 android:textSize="40sp" />
 
@@ -83,7 +85,8 @@
                 android:layout_toEndOf="@id/sets_number"
                 android:layout_toRightOf="@+id/sets_number"
                 android:layout_centerVertical="true"
-                android:background="@drawable/plus_minus_buttons"
+                app:backgroundTint="@null"
+                android:background="@drawable/plus_minus_button"
                 android:text="+"
                 android:textColor="@color/colorGreenButton"
                 android:textSize="35sp"
@@ -113,7 +116,8 @@
                 android:layout_toStartOf="@+id/reps_number"
                 android:layout_toLeftOf="@+id/reps_number"
                 android:layout_centerVertical="true"
-                android:background="@drawable/plus_minus_buttons"
+                app:backgroundTint="@null"
+                android:background="@drawable/plus_minus_button"
                 android:text="—"
                 android:textColor="@color/colorGreenButton"
                 android:textSize="30sp"
@@ -129,6 +133,7 @@
                 android:layout_marginRight="30dp"
                 android:layout_marginLeft="30dp"
                 android:text="1"
+                android:digits="123456789."
                 android:inputType="number"
                 android:textSize="40sp" />
 
@@ -139,7 +144,8 @@
                 android:layout_toEndOf="@id/reps_number"
                 android:layout_toRightOf="@+id/reps_number"
                 android:layout_centerVertical="true"
-                android:background="@drawable/plus_minus_buttons"
+                app:backgroundTint="@null"
+                android:background="@drawable/plus_minus_button"
                 android:text="+"
                 android:textColor="@color/colorGreenButton"
                 android:textSize="35sp"
@@ -168,6 +174,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:text="40"
+                android:digits="123456789."
                 android:inputType="number"
                 android:textSize="40sp"
                 android:textAlignment="center"/>
