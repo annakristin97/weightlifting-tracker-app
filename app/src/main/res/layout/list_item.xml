@@ -27,8 +27,7 @@
                 android:layout_marginBottom="3dp"
                 android:textSize="22sp"
                 android:textStyle="bold"
-                android:textColor="@color/colorAccentWhite"
-                android:text="Bench Press"/>
+                android:textColor="@color/colorAccentWhite"/>
 
             <TextView
                 android:id="@+id/textView_weight"
@@ -39,8 +38,7 @@
                 android:textColor="@color/colorGreenButton"
                 android:textSize="35sp"
                 android:textStyle="bold"
-                android:textAlignment="viewEnd"
-                android:text="275 KG"/>
+                android:textAlignment="viewEnd"/>
 
             <TextView
                 android:id="@+id/textView_date"
@@ -50,8 +48,7 @@
                 android:layout_marginLeft="20dp"
                 android:textColor="@color/colorAccentWhite"
                 android:textSize="14sp"
-                android:textStyle="bold"
-                android:text="19/12/2020"/>
+                android:textStyle="bold"/>
         </RelativeLayout>
     </LinearLayout>
 
