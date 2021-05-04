@@ -111,7 +111,7 @@ public class NewLogActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start,
                                       int before, int count) {
-                if(s.length() != 0 && Long.parseLong(s.toString()) > 0) {
+                if(s.length() != 0 && Long.parseLong(s.toString()) >= 0) {
                     reps = Long.parseLong(s.toString());
                 }
             }
@@ -130,7 +130,7 @@ public class NewLogActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start,
                                       int before, int count) {
-                if(s.length() != 0 && Long.parseLong(s.toString()) > 0) {
+                if(s.length() != 0 && Long.parseLong(s.toString()) >= 0) {
                     sets = Long.parseLong(s.toString());
                 }
             }
@@ -149,7 +149,7 @@ public class NewLogActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start,
                                       int before, int count) {
-                if(s.length() != 0 && Long.parseLong(s.toString()) > 0) {
+                if(s.length() != 0 && Long.parseLong(s.toString()) >= 0) {
                     weight = Long.parseLong(s.toString());
                 }
             }

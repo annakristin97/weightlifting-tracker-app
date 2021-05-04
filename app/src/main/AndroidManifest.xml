@@ -22,9 +22,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".UI.BarChartActivity"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
             android:name=".UI.HomeFragment"
             android:windowSoftInputMode="adjustResize" />
         <activity

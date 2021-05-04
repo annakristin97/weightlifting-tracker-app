@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.weightliftingapp.Entities.RecyclerItemClickListener;
 import com.example.weightliftingapp.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -39,7 +40,7 @@ public class AddFragment extends AppCompatActivity {
     public static final String TAG = AddFragment.class.getSimpleName();
 
     RecyclerView recyclerView;
-    RecyclerView.Adapter rcadapter;
+    RecyclerViewAdapter rcadapter;
     Button addButton;
     EditText newLift;
     //String s1[];
@@ -58,9 +59,10 @@ public class AddFragment extends AppCompatActivity {
         //String[] myLiftArray = getDistinctLiftNames(); //{"Deadlift", "Squat", "Bench Press", "Shoulder Press", "Push Press", "Snatch", "Clean", "Power Snatch", "Power Clean"};
         //s1 = myLiftArray;
 
-        RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(this, s1);
-        recyclerView.setAdapter(recyclerViewAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        rcadapter = new RecyclerViewAdapter(this, s1);
+        recyclerView.setAdapter(rcadapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,true));
+
 
         addButton = findViewById(R.id.button_new_liftname);
         newLift = findViewById(R.id.new_liftname);
@@ -73,6 +75,18 @@ public class AddFragment extends AppCompatActivity {
             }
         });
 
+        recyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(this, recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+                        openNewLog(s1.get(position));
+                    }
+
+                    @Override public void onLongItemClick(View view, int position) {
+                        // do whatever
+                    }
+                })
+        );
+
         //TODO: TAKA ÚT - BARA TIL AÐ TESTA NEW LOG :D
         //addButton = findViewById(R.id.button_new_liftname);
         //addButton.setOnClickListener(new View.OnClickListener() {
@@ -84,17 +98,17 @@ public class AddFragment extends AppCompatActivity {
     }
 
     public void insertNewLift(int position, String name) {
-        s1.add(position, name);
-        rcadapter.notifyItemInserted(position);
+        ArrayList<String> newList = (ArrayList)s1.clone();
+        newList.add(position, name);
+        updateAdapter(newList);
     }
 
-    /*public void openNewLog(){
+    public void openNewLog(String liftname){
         Intent intent = new Intent(this, NewLogActivity.class);
-        //TODO: setja selected liftname i staðin f. deadlift
-        intent.putExtra("liftname", "Deadlift");
+        intent.putExtra("liftname", liftname);
         startActivity(intent);
 
-    }*/
+    }
 
     public ArrayList<String> getDistinctLiftNames() {
         Request request = new Request.Builder()
