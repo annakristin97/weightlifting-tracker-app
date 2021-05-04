@@ -23,6 +23,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="Settings"
+            android:textColor="@android:color/white"
             android:textStyle="bold"
             android:textSize="40dp" />
 

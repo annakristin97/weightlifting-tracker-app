@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -33,78 +34,69 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-
 public class AddFragment extends AppCompatActivity {
 
     public static final String TAG = AddFragment.class.getSimpleName();
 
     RecyclerView recyclerView;
+    RecyclerView.Adapter rcadapter;
     Button addButton;
-    String s1[];
+    EditText newLift;
+    //String s1[];
+    ArrayList<String> s1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_add);
 
         recyclerView = findViewById(R.id.recyclerView);
 
-        getDistinctLiftNames();
-        String[] myLiftArray = {"Deadlift", "Squat", "Bench Press", "Shoulder Press", "Push Press", "Snatch", "Clean", "Power Snatch", "Power Clean"};
-        s1 = myLiftArray;
+        ArrayList<String> liftList = new ArrayList<>();
+        s1 = getDistinctLiftNames();
+        //String[] myLiftArray = getDistinctLiftNames(); //{"Deadlift", "Squat", "Bench Press", "Shoulder Press", "Push Press", "Snatch", "Clean", "Power Snatch", "Power Clean"};
+        //s1 = myLiftArray;
+
         RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(this, s1);
         recyclerView.setAdapter(recyclerViewAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        //kannski breyta her??
-        BottomNavigationView BottomNavigationView = findViewById(R.id.bottomNavigationView);
-        //default selected
-        //BottomNavigationView.setSelectedItemId(R.id.fab);
-        BottomNavigationView.getMenu().setGroupCheckable(0, false, true);
+        addButton = findViewById(R.id.button_new_liftname);
+        newLift = findViewById(R.id.new_liftname);
 
-        //item selection for navigation
-        BottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        addButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    ///grafið gefur okkur homescreeninn
-                    case R.id.navigation_graph:
-                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                        overridePendingTransition(0, 0);
-                        return true;
-                    case R.id.navigation_settings:
-                        startActivity(new Intent(getApplicationContext()
-                                , HomeFragment.class));
-                        overridePendingTransition(0, 0);
-                        return true;
-                    //case R.id.fab:
-                      //  return false;
-                    //case R.id.fab:
-                    //  return true;
-                }
-                return false;
+            public void onClick(View v) {
+                String newLiftName = newLift.getText().toString();
+                insertNewLift(0, newLiftName);
             }
         });
 
         //TODO: TAKA ÚT - BARA TIL AÐ TESTA NEW LOG :D
-        addButton = findViewById(R.id.button_new_liftname);
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openNewLog();
-            }
-        });
+        //addButton = findViewById(R.id.button_new_liftname);
+        //addButton.setOnClickListener(new View.OnClickListener() {
+        //    @Override
+        //    public void onClick(View v) {
+        //        openNewLog();
+        //    }
+        //});
     }
 
-    public void openNewLog(){
+    public void insertNewLift(int position, String name) {
+        s1.add(position, name);
+        rcadapter.notifyItemInserted(position);
+    }
+
+    /*public void openNewLog(){
         Intent intent = new Intent(this, NewLogActivity.class);
         //TODO: setja selected liftname i staðin f. deadlift
         intent.putExtra("liftname", "Deadlift");
         startActivity(intent);
 
-    }
+    }*/
 
-    public String[] getDistinctLiftNames() {
+    public ArrayList<String> getDistinctLiftNames() {
         Request request = new Request.Builder()
                 .url("http://10.0.2.2:8090/lifts/liftnames")
                 .build();
@@ -112,7 +104,7 @@ public class AddFragment extends AppCompatActivity {
         return callBackendLiftNames(request);
     }
 
-    public String[] callBackendLiftNames(Request request) {
+    public ArrayList<String> callBackendLiftNames(Request request) {
         OkHttpClient client = new OkHttpClient();
         List<String> list = new ArrayList<>();
 
@@ -148,7 +140,8 @@ public class AddFragment extends AppCompatActivity {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    updateAdapter(list.toArray(new String[0]));
+                                    //updateAdapter(list.toArray(new String[0]));
+                                    updateAdapter((ArrayList<String>) list);
                                 }
                             });
                         } else {
@@ -163,10 +156,10 @@ public class AddFragment extends AppCompatActivity {
             Toast.makeText(this, "Network unavailable", Toast.LENGTH_LONG).show();
         }
 
-        return list.toArray(new String[0]);
+        return (ArrayList<String>) list;
     }
 
-    public void updateAdapter(String[] result) {
+    public void updateAdapter(ArrayList<String> result) {
         s1 = result;
         RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(this, s1);
         recyclerView.setAdapter(recyclerViewAdapter);

@@ -11,12 +11,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.weightliftingapp.R;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
 
-    String data1[];
+    //String data1[];
+    ArrayList<String> data1;
     Context context;
 
-    public RecyclerViewAdapter(Context ct, String s1[]){
+    public RecyclerViewAdapter(Context ct, ArrayList<String> s1){
         context = ct;
         data1 = s1;
     }
@@ -31,12 +35,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.myText1.setText(data1[position]);
+        holder.myText1.setText(data1.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return data1.length;
+        return data1.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {

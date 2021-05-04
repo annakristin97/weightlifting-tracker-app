@@ -57,7 +57,7 @@
                 android:background="@drawable/toggle_widget_background"
                 android:button="@null"
                 android:gravity="center"
-                android:text="PR Table"
+                android:text="1RM Table"
                 android:textColor="@android:color/white" />
         </RadioGroup>
 
@@ -115,14 +115,18 @@
             android:layout_marginRight="15dp"
             android:layout_marginTop="5dp"
             android:background="@drawable/red_outline" >
-            <Spinner
-                android:id="@+id/typeFilter"
-                android:popupBackground="@color/colorSpinnerBackground"
+            <com.androidbuts.multispinnerfilter.MultiSpinnerSearch
+                android:id="@+id/multipleItemSelectionSpinner"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:spinnerMode="dropdown"
+                android:layout_height="wrap_content"
+                android:layout_margin="1dp"
+                app:hintText="Select lifts"
+                app:highlightSelected="false"
+                app:clearText="@string/not_found"
                 android:textColor="@android:color/white"
-                android:textColorHint="@android:color/white"/>
+                android:textSize="@dimen/font_size"
+                android:entries="@array/typeItems"
+                />
         </RelativeLayout>
 
         <Space
