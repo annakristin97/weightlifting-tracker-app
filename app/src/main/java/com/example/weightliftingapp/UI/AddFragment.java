@@ -72,6 +72,7 @@ public class AddFragment extends AppCompatActivity {
             public void onClick(View v) {
                 String newLiftName = newLift.getText().toString();
                 insertNewLift(0, newLiftName);
+                newLift.setText(null);
             }
         });
 
