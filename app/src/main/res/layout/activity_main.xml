@@ -43,7 +43,7 @@
                 android:layout_weight="1"
                 android:button="@null"
                 android:gravity="center"
-                android:text="Graph"
+                android:text="Progress"
                 android:textColor="@android:color/black" />
 
             <RadioButton
